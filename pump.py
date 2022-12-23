@@ -274,15 +274,16 @@ def main():
             df_test_uploaded['head'] = (((df_test_uploaded['p_discharge']-df_test_uploaded['p_suction'])*10)/df_test_uploaded['specific_gravity']).astype('float64')
             df_test_uploaded['hydraulic_power'] = (df_test_uploaded['flow_rate']*df_test_uploaded['head']*df_test_uploaded['specific_gravity']*9.81)/(3600)
             df_test_uploaded['load%'] = 100*(df_test_uploaded['current'] / float(df_uploaded_power[df_uploaded_power['load%']==100]['current']))
-            pf_inter =  np.interp(np.array(df_test_uploaded['load%']),np.array(df_uploaded_power['load%']),np.array(df_uploaded_power['power_factor']))  
-            motor_inter =  np.interp(np.array(df_test_uploaded['load%']),np.array(df_uploaded_power['load%']),np.array(df_uploaded_power['motor_efficiency']))
-            df_test_uploaded['power_factor'] = pd.Series(pf_inter)
-            df_test_uploaded['motor_efficiency'] = pd.Series(motor_inter)
+            pf_inter =  np.interp(np.array(df_test_uploaded.loc[:,'load%']),np.array(df_uploaded_power['load%']),np.array(df_uploaded_power['power_factor']))  
+            motor_inter =  np.interp(np.array(df_test_uploaded.loc[:,'load%']),np.array(df_uploaded_power['load%']),np.array(df_uploaded_power['motor_efficiency']))
+            df_test_uploaded['power_factor'] = pf_inter
+            df_test_uploaded['motor_efficiency'] = motor_inter
             df_test_uploaded['power'] = (1.73*df_test_uploaded['current']*df_test_uploaded['voltage']*df_test_uploaded['power_factor']*df_test_uploaded['motor_efficiency'])/100000
             df_test_uploaded['efficiency'] = (df_test_uploaded['hydraulic_power']/df_test_uploaded['power'])*100
             df_test_uploaded['calculated_head'] = calculate_head(df_test_uploaded['flow_rate'])
             df_test_uploaded['tolerance'] = ((df_test_uploaded['head']-df_test_uploaded['calculated_head'])/df_test_uploaded['calculated_head'])*100
             st.dataframe(df_test_uploaded)
+            
 
         
             if df_fitted['head'].max() >  df_test_uploaded['head'].max():
