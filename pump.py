@@ -10,59 +10,56 @@ def main():
     <h2 style="color:black"; text-align:center> Centrifugal Pump Test Run Calculator </h2>
     </div>
     <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-
-</style>
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
 
 
+    </style>
 
-<h2>Units used</h2>
 
-<table>
-  <tr>
-    <th>Parameter</th>
-    <th>Unit</th>
-    
-  </tr>
-  <tr>
-    <td>Flow rate</td>
-    <td>M3/hr</td>
-    
-  </tr>
-  <tr>
-    <td>Pressure (Suction/Discharge)</td>
-    <td>Kg/cm2.g</td>
-    
-  </tr>
-  <tr>
-    <td>Head</td>
-    <td>m</td>
-    
-  </tr>
-  <tr>
-    <td>Current</td>
-    <td>Ampere</td>
-    
-  </tr>
-  <tr>
-    <td>Power (Hydraulic/ motor)</td>
-    <td>Kw</td>
-    
-  </tr>
-  
-</table>
-    """
+
+    <h3>Units used</h3>
+
+    <table>
+    <tr>
+        <th>Parameter</th>
+        <th>Unit</th>
+    </tr>
+    <tr>
+        <td>Flow rate</td>
+        <td>M3/hr</td>
+    </tr>
+    <tr>
+        <td>Pressure (Suction/Discharge)</td>
+        <td>Kg/cm2.g</td>
+    </tr>
+    <tr>
+        <td>Head</td>
+        <td>m</td>
+    </tr>
+    <tr>
+        <td>Current</td>
+        <td>Ampere</td>
+    </tr>
+    <tr>
+        <td>Power (Hydraulic/ motor)</td>
+        <td>Kw</td>
+    </tr>
+    <tr>
+        <td>NPSHr</td>
+        <td>m</td>
+    </tr>
+    </table>
+        """
     st.markdown(html_temp, unsafe_allow_html=True)
 
 
@@ -210,8 +207,46 @@ td, th {
 
     else:
         try:
+            html_temp_fat="""
+            <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+
+            </style>
+            <p>Your tables should commit to the following form</p>
+
+            <table>
+            <tr>
+                <th>flow_rate</th>
+                <th>head</th>
+                <th>power</th>
+                <th>efficiency</th>
+                
+            </tr>
+            </table>
+            <br>
+            <table>
+            <tr>
+                <th>load%</th>
+                <th>current</th>
+                <th>motor_efficiency</th>
+                <th>power_factor</th>
+                
+            </tr>
+            </table>"""
+            st.markdown(html_temp_fat, unsafe_allow_html=True)
             uploaded_file = st.file_uploader('Choose a file', key = 1)
-            df_uploaded=pd.read_csv(uploaded_file)
+            df_uploaded=pd.read_csv(uploaded_file).sort_values('flow_rate')
             st.dataframe(df_uploaded)
             x = df_uploaded['flow_rate']
             y =  df_uploaded['head']
@@ -254,7 +289,7 @@ td, th {
         # power factor data calculations
         try:
             uploaded_file_power = st.file_uploader('Choose a file', key = 2)
-            df_uploaded_power=pd.read_csv(uploaded_file_power)
+            df_uploaded_power=pd.read_csv(uploaded_file_power).sort_values('load%')
             if 100 not in df_uploaded_power['load%'].values:
                 rated_current = st.number_input('Insert rated current')
                 pf = st.number_input('Insert rated current power factor')
@@ -360,9 +395,40 @@ td, th {
             st.pyplot(fig)
     else:
         try:
+            html_temp_fat="""
+            <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+
+            </style>
+            <p>Your table should commit to the following form</p>
+
+            <table>
+            <tr>
+                <th>flow_rate</th>
+                <th>p_suction</th>
+                <th>p_discharge</th>
+                <th>current</th>
+                <th>voltage</th>
+                <th>specific_gravity</th>
+                
+            </tr>
+            </table>
+            """
+            st.markdown(html_temp_fat, unsafe_allow_html=True)
             uploaded_test_file = st.file_uploader('Choose a file', key = "test_run_data")
-            df_test_uploaded=pd.read_csv(uploaded_test_file)
-            #st.dataframe(df_test_uploaded)
+            df_test_uploaded=pd.read_csv(uploaded_test_file).sort_values('flow_rate')
+            
             df_test_uploaded['head'] = (((df_test_uploaded['p_discharge']-df_test_uploaded['p_suction'])*10)/df_test_uploaded['specific_gravity']).astype('float64')
             df_test_uploaded['hydraulic_power'] = (df_test_uploaded['flow_rate']*df_test_uploaded['head']*df_test_uploaded['specific_gravity']*9.81)/(3600)
             df_test_uploaded['load%'] = 100*(df_test_uploaded['current'] / float(df_uploaded_power[df_uploaded_power['load%']==100]['current']))
