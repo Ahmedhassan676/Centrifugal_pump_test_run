@@ -9,6 +9,59 @@ def main():
     <div style="background-color:lightblue;padding:16px">
     <h2 style="color:black"; text-align:center> Centrifugal Pump Test Run Calculator </h2>
     </div>
+    <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+</style>
+
+
+
+<h2>Units used</h2>
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Unit</th>
+    
+  </tr>
+  <tr>
+    <td>Flow rate</td>
+    <td>M3/hr</td>
+    
+  </tr>
+  <tr>
+    <td>Pressure (Suction/Discharge)</td>
+    <td>Kg/cm2.g</td>
+    
+  </tr>
+  <tr>
+    <td>Head</td>
+    <td>m</td>
+    
+  </tr>
+  <tr>
+    <td>Current</td>
+    <td>Ampere</td>
+    
+  </tr>
+  <tr>
+    <td>Power (Hydraulic/ motor)</td>
+    <td>Kw</td>
+    
+  </tr>
+  
+</table>
     """
     st.markdown(html_temp, unsafe_allow_html=True)
 
