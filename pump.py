@@ -184,7 +184,7 @@ def convert_data(df):
 def main():
     html_temp="""
     <div style="background-color:lightblue;padding:16px">
-    <h2 style="color:black"; text-align:center> Centrifugal Pump Test Run Calculator </h2>
+    <h2 style="color:black"; text-align:center> Centrifugal Pump Performance Evaluation </h2>
     </div>
     <style>
     table {
@@ -490,7 +490,7 @@ def main():
                         try:
                             #Calling plot_charts() function which displays pump data against test run data
                             plot_charts(df_uploaded,df_test_uploaded,df_fitted,max_head,max_flow_rate)
-                        except UnboundLocalError: st.write('Please Check your FAT and power factor datasets')
+                        except (KeyError,UnboundLocalError): st.write('Please Check your FAT and power factor datasets')
                     
                 else: st.write('Please Check that your columns names are as specified')
             
