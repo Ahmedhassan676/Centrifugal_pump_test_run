@@ -17,4 +17,6 @@ Additionally, the app will display your test results in graphs and you can also 
 usually makes +-8% Error in S.G.
 [2] Working Guide to Pump and Pumping Stations: Calculations and Simulations, E. Shashi Menon - Pages (25-27)
 
-Note: These calculations neglects the effects of elevations differences between your to pressure gauges.
+Note 1: These calculations neglects the effects of elevations differences between your to pressure gauges.
+Note 2: add form code credits: Mr. Shawn_Pereira reply in stackflow
+link: https://discuss.streamlit.io/t/how-to-add-records-to-a-dataframe-using-python-and-streamlit/19164/5
