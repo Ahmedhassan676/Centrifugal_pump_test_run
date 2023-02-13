@@ -105,7 +105,7 @@ def test_calculations(df,df_power,df_uploaded):
                 df['power'] = (1.73*df['current']*df['voltage']*df['power_factor']*df['motor_efficiency'])/100000
                 df['efficiency'] = (df['hydraulic_power']/df['power'])*100
                 df['calculated_head'] = calculate_head(df['flow_rate'],df_uploaded)
-                df['tolerance'] = ((df['head']-df['calculated_head'])/df['calculated_head'])*100
+                df['Error%'] = ((df['head']-df['calculated_head'])/df['calculated_head'])*100
                 return df
 def plot_fitted_curves(df_fitted,df_uploaded,max_flow_rate, max_head):
             ''' This function plots the fitted curves along with the uploaded FAT data
@@ -120,7 +120,7 @@ def plot_fitted_curves(df_fitted,df_uploaded,max_flow_rate, max_head):
             2. fitted Q-Eff curve and FAT data points
             '''
             fig,axs = plt.subplots(1,2)
-            fig.set_figheight(8)
+            fig.set_figheight(6)
             fig.set_figwidth(8)
             axs[0].plot(df_fitted['flow_rate'],df_fitted['head'])
             axs[0].scatter(df_uploaded['flow_rate'],df_uploaded['head'])
@@ -420,7 +420,7 @@ def main():
                 plot_charts(df_uploaded,df_test_uploaded,df_fitted,max_head,max_flow_rate)
                 st.download_button("Click to download your calculations table!", convert_data(df_test_uploaded),"calculations.csv","text/csv", key = "download1")
                 
-            except (ValueError, TypeError): st.write('Please Check your dataset')
+            except (ValueError, TypeError, UnboundLocalError): st.write('Please Check your dataset')
             
             
     else: #Case 2.2: Test Run data gathering no CSV file and using form
@@ -474,7 +474,7 @@ def main():
                     try:
                         # Updating the uploaded test run data with the test run calculations
                         df_test_uploaded = test_calculations(df_test_uploaded,df_uploaded_power,df_uploaded)    
-                    except TypeError: st.write('Please Check your FAT and power factor datasets')
+                    except (TypeError,UnboundLocalError): st.write('Please Check your FAT and power factor datasets')
                     
                     
 
