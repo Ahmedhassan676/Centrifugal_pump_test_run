@@ -11,7 +11,7 @@ H = a*Q + b*Q^2 + C
 E = a*Q + b*Q^2 + C
 
 Then performs your performance test calculations and calculate %Error in your readings (Compare it with API 610 tolerance table) 
-Additionally, the app will display your test results in graphs and you can also your calculations table!
+Additionally, the app will display your test results in graphs and you can also download your calculations table!
 
 [1] P.S: you can make an estimate of your fluid Specific gravity using the shut-off head in your characteristic curve where dP (Pa) = rho*9.81*H (m)
 usually makes +-8% Error in S.G.
